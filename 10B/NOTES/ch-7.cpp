@@ -187,3 +187,192 @@
             removed, so the algorithm points the lists tail pointer to curNode (the new
             tail node). 
 }
+
+7.7 Copy Constructors {
+    *Copy constructor: "constructor that is automatically called when an object of the class
+    type is passed by value to a function and when an object is initialized by copying 
+    another object during declaration"
+    *deep copy: "when a copy constructor makes a new copy of all data members (including
+    pointers)"
+    *shallow copy: "creating a copy of an object by copying only the data members' values"
+========================================================================================================
+    ```7. 2. 2: Write a Copy Constructor```
+    "Write a copy constructor for CarCounter that assigns origCarCounter.carCount to the constructed object's carCount. Sample output for the given program: Cars counted: 5"
+    {
+        #include <iostream>
+        using namespace std;
+
+        class CarCounter {
+            public:
+                CarCounter();
+                CarCounter(const CarCounter& origCarCounter);
+                void SetCarCount(const int count) {
+                    carCount = count;
+                }
+                int GetCarCount() const {
+                    return carCount;
+                }
+            private:
+                int carCount;
+        };
+
+        CarCounter::CarCounter() {
+            carCount = 0;
+        }
+
+        // copy constructor below
+
+        CarCounter::CarCounter(const CarCounter& origCarCounter) {
+            carCount = (origCarCounter.carCount);
+        }
+
+        void CountPrinter(CarCounter carCntr) {
+            cout << "Cars counted: " << carCntr.GetCarCount();
+        }
+
+        int main() {
+            CarCounter parkingLot;
+            int count;
+
+            cin >> count;
+
+            parkingLot.SetCarCount(count);
+            CountPrinter(parkingLot);
+
+            return 0;
+        }
+    }
+}
+
+7.8 Copy Assignment Operator {
+    ```Assignment Operator Performs a Deep Copy``` 
+    #include <iostream>
+    using namespace std;
+
+    class MyClass {
+        public:
+            MyClass();
+            ~MyClass();
+            MyClass& operator=(const MyClass& objToCopy);
+            
+            // Set member value dataObject
+            void SetDataObject(const int setVal) {
+                *dataObject = setVal;
+            }
+            
+            // Return member value dataObject
+            int GetDataObject() const {
+                return *dataObject;
+            }
+        private:
+            int* dataObject;// Data member
+    };
+
+    // Default constructor
+    MyClass::MyClass() {
+        cout << "Constructor called." << endl;
+        dataObject = new int; // Allocate mem for data
+        *dataObject = 0;
+    }
+
+    // Destructor
+    MyClass::~MyClass() {
+        cout << "Destructor called." << endl;
+        delete dataObject;
+    }
+
+    MyClass& MyClass::operator=(const MyClass& objToCopy) {
+        cout << "Assignment op called." << endl;
+    
+        if (this != &objToCopy) {                   // 1. Don't self-assign
+            delete dataObject;                      // 2. Delete old dataObject
+            dataObject = new int;                   // 3. Allocate new dataObject
+            *dataObject = *(objToCopy.dataObject);  // 4. Copy dataObject
+        }
+    
+        return *this;
+    }
+
+    int main() {
+        MyClass classObj1; // Create object of type MyClass
+        MyClass classObj2; // Create object of type MyClass
+        
+        // Set and print object 1 data member value
+        classObj1.SetDataObject(9);
+        
+        // Copy class object using copy assignment operator
+        classObj2 = classObj1;
+        
+        // Set object 1 data member value
+        classObj1.SetDataObject(1);
+        
+        // Print data values for each object
+        cout << "classObj1:" << classObj1.GetDataObject() << endl;
+        cout << "classObj2:" << classObj2.GetDataObject() << endl;
+        
+        return 0;
+    }
+
+    //OUTPUTS ARE AS FOLLOWS:
+        // Constructor called.
+        // Constructor called.
+        // Assignment op called.
+        // obj1:1
+        // obj2:9
+        // Destructor called.
+        // Destructor called.
+---------------------------------------------------------------------------------------------------------
+    ```7. 8. 2: Write a Copy Assignment```
+    "Write a copy assignment operator for CarCounter that assigns objToCopy.carCount to the new objects's carCount, then returns *this. Sample output for the given program: Cars counted: 12"
+    {
+    #include <iostream>
+    using namespace std;
+
+    class CarCounter {
+    public:
+        CarCounter();
+        ~CarCounter();
+        CarCounter& operator=(const CarCounter& objToCopy);
+        void SetCarCount(const int setVal) {
+            *carCount = setVal;
+        }
+        int GetCarCount() const {
+            return *carCount;
+        }
+    private:
+        int* carCount;
+    };
+
+    CarCounter::CarCounter() {
+        carCount = new int;
+        *carCount = 0;
+    }
+
+    CarCounter::~CarCounter() {
+        delete carCount;
+    }
+
+    // copy assignment operator below
+
+    CarCounter& CarCounter::operator=(const CarCounter& objToCopy) {
+        delete carCount;
+        carCount = new int;
+        *carCount = *(objToCopy.carCount);
+    }
+
+    int main() {
+        CarCounter frontParkingLot;
+        CarCounter backParkingLot;
+        int count;
+
+        cin >> count;
+
+        frontParkingLot.SetCarCount(count);
+        backParkingLot = frontParkingLot;
+
+        cout << "Cars counted: " << backParkingLot.GetCarCount();
+
+        return 0;
+    }
+    }
+}
