@@ -197,7 +197,9 @@
     *shallow copy: "creating a copy of an object by copying only the data members' values"
 ========================================================================================================
     ```7. 2. 2: Write a Copy Constructor```
-    "Write a copy constructor for CarCounter that assigns origCarCounter.carCount to the constructed object's carCount. Sample output for the given program: Cars counted: 5"
+    "Write a copy constructor for CarCounter that assigns origCarCounter.carCount to the constructed 
+    object's carCount. Sample output for the given program:
+    Cars counted: 5"
     {
         #include <iostream>
         using namespace std;
@@ -323,7 +325,9 @@
         // Destructor called.
 ---------------------------------------------------------------------------------------------------------
     ```7. 8. 2: Write a Copy Assignment```
-    "Write a copy assignment operator for CarCounter that assigns objToCopy.carCount to the new objects's carCount, then returns *this. Sample output for the given program: Cars counted: 12"
+    "Write a copy assignment operator for CarCounter that assigns objToCopy.carCount to the new objects's 
+    carCount, then returns *this. Sample output for the given program:
+    Cars counted: 12"
     {
     #include <iostream>
     using namespace std;
@@ -375,4 +379,27 @@
         return 0;
     }
     }
+}
+
+7.9 Rule of Three {
+    *Destructor: "A destructor is a class member function that is automatically called when 
+    an object of the class is destroyed, such as when the object goes out of scope or is 
+    explicitly destroyed as in delete someObject;."
+    
+    *Copy constructor: "A copy constructor is another version of a constructor that can be 
+    called with a single pass by reference argument. The copy constructor is automatically 
+    called when an object is passed by value to a function, such as for the function 
+    SomeFunction(MyClass localObject) and the call SomeFunction(anotherObject), when an 
+    object is initialized when declared such as MyClass classObject1 = classObject2;, or 
+    when an object is initialized when allocated via "new" as in newObjectPtr = new 
+    MyClass(classObject2);"
+    
+    *Copy assignment operator: "The assignment operator "=" can be overloaded for a class 
+    via a member function, known as the copy assignment operator, that overloads the built-in 
+    function "operator=", the member function having a reference parameter of the class type 
+    and returning a reference to the class type."
+    
+    *Rule of three: "describes a practice that if a programmer explicitly defines any one of 
+    those three special member functions (destructor, copy constructor, copy assignment 
+    operator), then the programmer should explicitly define all three."
 }
