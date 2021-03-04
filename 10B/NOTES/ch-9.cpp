@@ -284,3 +284,379 @@
     for stack, usually causes the program to crash and report an error like segmentation
     fault, access violation, or bad access"
 }
+
+9.6 Recursive Algorithm: Search {
+    ```9. 6. 1: A Recursive Function Carrying Out A Binary Search Algorithm```
+    #include <iostream>
+    using namespace std;
+
+    void GuessNumber(int lowVal, int highVal) {
+        int midVal;            // Midpoint of low and high value
+        char userAnswer;       // User response
+        
+        midVal = (highVal + lowVal) / 2;
+        
+        // Prompt user for input
+        cout << "Is it " << midVal << "? (l/h/y): ";
+        cin >> userAnswer;
+        
+        if ( (userAnswer != 'l') && (userAnswer != 'h') ) { // Base case: found number
+            cout << "Thank you!" << endl;                   
+        }
+        else {                                             // Recursive case: split into lower OR upper half
+            if (userAnswer == 'l') {                       // Guess in lower half
+                GuessNumber(lowVal, midVal);               // Recursive call
+            }
+            else {                                         // Guess in upper half
+                GuessNumber(midVal + 1, highVal);          // Recursive call
+            }
+        }
+    }
+
+    int main() {
+        // Print game objective, user input commands
+        cout << "Choose a number from 0 to 100." << endl;
+        cout << "Answer with:" << endl;
+        cout << "   l (your num is lower)" << endl;
+        cout << "   h (your num is higher)" << endl;
+        cout << "   any other key (guess is right)." << endl;
+        
+        // Call recursive function to guess number
+        GuessNumber(0, 100);
+        
+        return 0;
+    }
+    //SAMPLE OUTPUT:
+    /* Choose a number from 0 to 100.
+    Answer with:
+    l (your num is lower)
+    h (your num is higher)
+    any other key (guess is right).
+    Is it 50? (l/h/y): l
+    Is it 25? (l/h/y): h
+    Is it 38? (l/h/y): l
+    Is it 32? (l/h/y): y
+    Thank you! */
+--------------------------------------------------------------------------------------------
+    ```9. 6. 2: Recursively searching a sorted list```
+    #include <iostream>
+    #include <string>
+    #include <vector>
+
+    using namespace std;
+
+    /* Finds index of string in vector of strings, else -1.
+    Searches only with index range low to high
+    Note: Upper/lower case characters matter
+    */
+
+    int FindMatch(vector<string> stringsList, string itemMatch, int lowVal, int highVal) {
+        int midVal;        // Midpoint of low and high values
+        int itemPos;       // Position where item found, -1 if not found
+        int rangeSize;     // Remaining range of values to search for match
+        
+        rangeSize = (highVal - lowVal) + 1;
+        midVal = (highVal + lowVal) / 2;
+        
+        if (itemMatch == stringsList.at(midVal)) {   // Base case 1: item found at midVal position
+            itemPos = midVal;
+        }
+        else if (rangeSize == 1) {                   // Base case 2: match not found
+            itemPos = -1;
+        }
+        else {                                       // Recursive case: search lower or upper half
+            if (itemMatch < stringsList.at(midVal)) { // Search lower half, recursive call
+                itemPos = FindMatch(stringsList, itemMatch, lowVal, midVal);
+            }
+            else {                                    // Search upper half, recursive call
+                itemPos = FindMatch(stringsList, itemMatch, midVal + 1, highVal);
+            }
+        }
+        
+        return itemPos;
+    }
+
+    int main() {
+        vector<string> attendeesList(0); // List of attendees
+        string attendeeName;             // Name of attendee to match
+        int matchPos;                    // Matched position in attendee list
+        
+        // Omitting part of program that adds attendees
+        // Instead, we insert some sample attendees in sorted order
+        attendeesList.push_back("Adams, Mary");
+        attendeesList.push_back("Carver, Michael");
+        attendeesList.push_back("Domer, Hugo");
+        attendeesList.push_back("Fredericks, Carlos");
+        attendeesList.push_back("Li, Jie");
+        
+        // Prompt user to enter a name to find
+        cout << "Enter person's name: Last, First: ";
+        getline(cin, attendeeName); // Use getline to allow space in name
+        
+        // Call function to match name, output results
+        matchPos = FindMatch(attendeesList, attendeeName, 0, attendeesList.size() - 1);
+        if (matchPos >= 0) {
+            cout << "Found at position " << matchPos << "." << endl;
+        }
+        else {
+            cout << "Not found. " << endl;
+        }
+        
+        return 0;
+    }
+    // SAMPLE OUTPUT:
+    /* Enter person's name: Last, First: Meeks, Stan
+    Not found. 
+
+    ...
+
+    Enter person's name: Last, First: Adams, Mary
+    Found at position 0.
+
+    ...
+
+    Enter person's name: Last, First: Li, Jie
+    Found at position 4. */
+}
+
+9.8 Recursive Exploration of All Possibilities {
+    ```9. 8. 1: Scramble a Word's Letters in Every Possible Way```
+    #include <iostream>
+    #include <string>
+    using namespace std;
+
+    /* Output every possible combination of a word.
+    Each recursive call moves a letter from
+    remainLetters to scramLetters.
+    */
+    void ScrambleLetters(string remainLetters,  // Remaining letters
+                        string scramLetters) {  // Scrambled letters
+        string tmpString; // Temp word combination
+        unsigned int i;   // Loop index
+        
+        if (remainLetters.size() == 0) { // Base case: All letters used
+            cout << scramLetters << endl;
+        }
+        else {                              // Recursive case: move a letter from
+                                            // remaining to scrambled letters
+            for (i = 0; i < remainLetters.size(); ++i) {
+                // Move letter to scrambled letters
+                tmpString = remainLetters.substr(i, 1);
+                remainLetters.erase(i, 1);
+                scramLetters = scramLetters + tmpString;
+                
+                ScrambleLetters(remainLetters, scramLetters);
+                
+                // Put letter back in remaining letters
+                remainLetters.insert(i, tmpString);
+                scramLetters.erase(scramLetters.size() - 1, 1);
+            }
+        }
+    }
+
+    int main() {
+        string wordScramble; // User defined word to scramble
+        
+        // Prompt user for input
+        cout << "Enter a word to be scrambled: ";
+        cin >> wordScramble;
+        
+        // Call recursive function
+        ScrambleLetters(wordScramble, "");
+        
+        return 0;
+    }
+
+    //SAMPLE OUTPUT:
+    /* Enter a word to be scrambled: cat
+    cat
+    cta
+    act
+    atc
+    tca
+    tac */
+------------------------------------------------------------------------------------------
+    ```9. 8. 2: Shopping spree in which a user can fit 3 items in a shopping bag```
+    #include <iostream>
+    #include <string>
+    #include <vector>
+    using namespace std;
+
+    class Item {
+        public:
+        string itemName;  // Name of item
+        int priceDollars; // Price of item
+    };
+
+    const unsigned int MAX_ITEMS_IN_SHOPPING_BAG = 3; // Max num items
+
+    /* Output every combination of items that fit
+    in a shopping bag. Each recursive call moves
+    one item into the shopping bag.
+    */
+    void ShoppingBagCombinations(vector<Item> currBag,          // Bag contents
+                                vector<Item> remainingItems) { // Available items
+        int bagValue;        // Cost of items in shopping bag
+        Item tmpGroceryItem; // Grocery item to add to bag
+        unsigned int i;      // Loop index
+        
+        if( currBag.size() == MAX_ITEMS_IN_SHOPPING_BAG ) { // Base case: Shopping bag full
+            bagValue = 0;
+            for(i = 0; i < currBag.size(); ++i) {
+                bagValue += currBag.at(i).priceDollars;
+                cout << currBag.at(i).itemName << "  ";
+            }
+            cout << "= $" << bagValue << endl;
+        }
+        else {                                              // Recursive case: move one
+            for(i = 0; i < remainingItems.size(); ++i) {     // item to bag
+                // Move item into bag
+                tmpGroceryItem = remainingItems.at(i);
+                remainingItems.erase(remainingItems.begin() + i);
+                currBag.push_back(tmpGroceryItem);
+                
+                ShoppingBagCombinations(currBag, remainingItems);
+                
+                // Take item out of bag
+                remainingItems.insert(remainingItems.begin() + i,tmpGroceryItem);
+                currBag.pop_back();
+            }
+        }
+    }
+
+    int main() {
+        vector<Item> possibleItems(0); // Possible shopping items
+        vector<Item> shoppingBag(0);   // Current shopping bag
+        Item tmpGroceryItem;           // Temp item
+        
+        // Populate grocery with different items
+        tmpGroceryItem.itemName = "Milk";
+        tmpGroceryItem.priceDollars = 2;
+        possibleItems.push_back(tmpGroceryItem);
+        
+        tmpGroceryItem.itemName = "Belt";
+        tmpGroceryItem.priceDollars = 24;
+        possibleItems.push_back(tmpGroceryItem);
+        
+        tmpGroceryItem.itemName = "Toys";
+        tmpGroceryItem.priceDollars = 19;
+        possibleItems.push_back(tmpGroceryItem);
+        
+        tmpGroceryItem.itemName = "Cups";
+        tmpGroceryItem.priceDollars = 12;
+        possibleItems.push_back(tmpGroceryItem);
+        
+        // Try different combinations of three items
+        ShoppingBagCombinations(shoppingBag, possibleItems);
+        
+        return 0;
+    }
+    //SAMPLE OUTPUT:
+    /* Milk  Belt  Toys  = $45
+    Milk  Belt  Cups  = $38
+    Milk  Toys  Belt  = $45
+    Milk  Toys  Cups  = $33
+    Milk  Cups  Belt  = $38
+    Milk  Cups  Toys  = $33
+    Belt  Milk  Toys  = $45
+    Belt  Milk  Cups  = $38
+    Belt  Toys  Milk  = $45
+    Belt  Toys  Cups  = $55
+    Belt  Cups  Milk  = $38
+    Belt  Cups  Toys  = $55
+    Toys  Milk  Belt  = $45
+    Toys  Milk  Cups  = $33
+    Toys  Belt  Milk  = $45
+    Toys  Belt  Cups  = $55
+    Toys  Cups  Milk  = $33
+    Toys  Cups  Belt  = $55
+    Cups  Milk  Belt  = $38
+    Cups  Milk  Toys  = $33
+    Cups  Belt  Milk  = $38
+    Cups  Belt  Toys  = $55
+    Cups  Toys  Milk  = $33
+    Cups  Toys  Belt  = $55 */
+-----------------------------------------------------------------------------------------
+    ```9. 8. 3: Find distance of traveling to 3 cities```
+    #include <iostream>
+    #include <iomanip>
+    #include <vector>
+    using namespace std;
+
+    const unsigned int NUM_CITIES = 3;         // Number of cities
+    int cityDistances[NUM_CITIES][NUM_CITIES]; // Distance between cities
+    string cityNames[NUM_CITIES];              // City names
+
+    /* Output every possible travel path.
+    Each recursive call moves to a new city.
+    */
+    void TravelPaths(vector<int> currPath, vector<int> needToVisit) {
+    int totalDist;     // Total distance given current path
+    int tmpCity;       // Next city distance
+    unsigned int i;    // Loop index
+    
+    if( currPath.size() == NUM_CITIES ) { // Base case: Visited all cities
+        totalDist = 0;                     // return total path distance
+        for (i = 0; i < currPath.size(); ++i) {
+            cout << cityNames[currPath.at(i)] << "   ";
+            
+            if (i > 0) {
+                totalDist += cityDistances[currPath.at(i - 1)][currPath.at(i)];
+            }
+        }
+        
+        cout << "= " << totalDist << endl;
+    }
+    else {                                // Recursive case: pick next city
+        for(i = 0; i < needToVisit.size(); ++i) {
+            // Add city to travel path
+            tmpCity = needToVisit.at(i);
+            needToVisit.erase(needToVisit.begin() + i);
+            currPath.push_back(tmpCity);
+            
+            TravelPaths(currPath, needToVisit);
+            
+            // Remove city from travel path
+            needToVisit.insert(needToVisit.begin() + i, tmpCity);
+            currPath.pop_back();
+        }
+    }
+    }
+
+    int main() {
+    vector<int> needToVisit(0); // Cities left to visit
+    vector<int> currPath(0);    // Current path traveled
+    
+    // Initialize distances array
+    cityDistances[0][0] = 0;
+    cityDistances[0][1] = 960;  // Boston-Chicago
+    cityDistances[0][2] = 2960; // Boston-Los Angeles
+    cityDistances[1][0] = 960;  // Chicago-Boston
+    cityDistances[1][1] = 0;
+    cityDistances[1][2] = 2011; // Chicago-Los Angeles
+    cityDistances[2][0] = 2960; // Los Angeles-Boston
+    cityDistances[2][1] = 2011; // Los Angeles-Chicago
+    cityDistances[2][2] = 0;
+    
+    cityNames[0] = "Boston";
+    cityNames[1] = "Chicago";
+    cityNames[2] = "Los Angeles";
+    
+    needToVisit.push_back(0); // Boston
+    needToVisit.push_back(1); // Chicago
+    needToVisit.push_back(2); // Los Angeles
+
+    // Explore different paths   
+    TravelPaths(currPath, needToVisit);
+    
+    return 0;
+    }
+    //SAMPLE OUTPUT
+    /* 
+    Boston   Chicago   Los Angeles   = 2971
+    Boston   Los Angeles   Chicago   = 4971
+    Chicago   Boston   Los Angeles   = 3920
+    Chicago   Los Angeles   Boston   = 4971
+    Los Angeles   Boston   Chicago   = 3920
+    Los Angeles   Chicago   Boston   = 2971 */
+}
