@@ -420,7 +420,7 @@
 }
 
 9.8 Recursive Exploration of All Possibilities {
-    ```9. 8. 1: Scramble a Word's Letters in Every Possible Way```
+    ```9. 8. 1: Scramble a Words Letters in Every Possible Way```
     #include <iostream>
     #include <string>
     using namespace std;
