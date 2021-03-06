@@ -197,7 +197,7 @@ Using a constructor initializer list
 > **shallow copy:** creating a copy of an object by copying only the data members' values
 ---
 ### 7. 2. 2: Write a Copy Constructor
-`Write a copy constructor for CarCounter that assigns origCarCounter.carCount to the constructed object's carCount. Sample output for the given program:  `
+Write a copy constructor for CarCounter that assigns origCarCounter.carCount to the constructed object's carCount. Sample output for the given program:  
 
 Cars counted: 5
 ``` c++
