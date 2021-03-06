@@ -1,15 +1,18 @@
-6.7 Vector ADT {
-    *standard template library (STL): "defines classes for common Abstract Data Types (ADTs)."
-    *vector: "an ADT of an ordered, indexable list of items"
-        - The vector ADT is implemented as a "class" which supports different types, such as:
-            vector<int> or vector<string>
-=========================================================================================================
-    For the commonly-used vector member functions below, assume a vector is declared as:
-    vector<T> vectorName();
-        where T represents the vectors element type, such as:
-    vector<int> teamNums(5);
+## 6.7 Vector ADT
+> **standard template library (STL):** defines classes for common Abstract Data Types (ADTs).
 
-    ```VECTOR ADT FUNCTIONS``` {
+> **vector:** an ADT of an ordered, indexable list of items
+- *The vector ADT is implemented as a "class" which supports different types, such as:
+            vector<int> or vector<string>*
+---
+For the commonly-used vector member functions below, assume a vector is declared as:
+```vector<T> vectorName();```
+
+where T represents the vectors element type, such as:
+```vector<int> teamNums(5);```
+
+>VECTOR ADT FUNCTIONS
+``` cpp
         at()
             at(size_type n)
             Accesses element n.
@@ -67,9 +70,9 @@
             -----------
             // Assume vector is 77, 88
             teamNums.insert(teamNums.begin() + 1, 33); // Now 77, 33, 88
-    }
-
-    ```6. 7. 4: Insert() and Erase() vector member functions```
+```
+> 6.7.4: Insert() and Erase() vector member functions
+```cpp
         int main() {
             unsigned int i;
             vector<int> vctr;
@@ -89,4 +92,4 @@
             cin >> i;                                              // 9 
             return 0;
         }
-}
+```
