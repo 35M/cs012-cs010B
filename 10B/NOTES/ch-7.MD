@@ -80,7 +80,7 @@ Using a constructor initializer list
 ```
 
 ## 7.3 A First Linked List
-> **list node:** a class defined to represent each 
+> **list node:** a class defined to represent each list item
 > - is comprised of the data to be stored in each list item  
 ---
 ### Linked list example
