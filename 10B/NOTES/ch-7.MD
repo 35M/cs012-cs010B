@@ -3,21 +3,13 @@
 ## SECTIONS:
 - [CHAPTER 7](#chapter-7)
   - [SECTIONS:](#sections)
-
   - [7.1 Inline Member Functions](#71-inline-member-functions)
-
   - [7.3 A First Linked List](#73-a-first-linked-list)
-
   - [7.4 Singly-Linked Lists](#74-singly-linked-lists)
-
   - [7.5 Singly-linked lists: Insert](#75-singly-linked-lists-insert)
-
   - [7.6 Singly-linked lists: Remove](#76-singly-linked-lists-remove)
-
   - [7.7 Copy Constructors](#77-copy-constructors)
-
   - [7.8 Copy Assignment Operator](#78-copy-assignment-operator)
-
   - [7.9 Rule of Three](#79-rule-of-three)
 
 ## 7.1 Inline Member Functions
